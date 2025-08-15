@@ -1,5 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 
+type BankDetails = {
+  bankName: string;
+  accountName: string;
+  sortCode: string;
+  accountNumber: string;
+  iban?: string;
+  referenceNote?: string;
+};
+
+
 function canShareFile(file: File) {
   // Web Share Level 2 (with files) support check
   // Must be in a user gesture context when called
@@ -338,6 +348,15 @@ export default function CleaningReportApp() {
     } catch { return "local-" + randomId(); }
   });
 const [reports, setReports] = useState<Report[]>(() => {
+
+  // Bank details
+  const [banks, setBanks] = useState<BankDetails[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem("cleaning_banks_v1") || "[]") as BankDetails[];
+    } catch {
+      return [];
+    }
+  });
     try { const raw = localStorage.getItem("cleaning_reports_v1"); return raw ? JSON.parse(raw) : []; } catch { return []; }
   });
   useEffect(() => { try { localStorage.setItem("cleaning_reports_v1", JSON.stringify(reports)); } catch {} }, [reports]);
