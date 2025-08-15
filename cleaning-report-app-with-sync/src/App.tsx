@@ -1028,3 +1028,4 @@ const [reports, setReports] = useState<Report[]>(() => {
     console.error("Self-tests failed", e);
   }
 })();
+ 
